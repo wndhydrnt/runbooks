@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-xl">
+    <div class="runbook">
+{{{RunbookHTML}}}
+    </div>
+  </div>
+</div>
+<script>
+$(".runbook h1,h2,h3,h4,h5,h6").each((index, val) => {
+  const $el = $(val);
+  const id = $el.attr("id");
+  const text = $el.text();
+  $el.text("");
+  $el.append('<a href="#' + id + '">' + text + '</a>');
+});
+</script>

@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-xl">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            Name
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+  {{#Runbooks}}
+        <tr>
+          <td>
+            <a href="/runbooks/{{Name}}">{{Name}}</a>
+          </td>
+        </tr>
+  {{/Runbooks}}
+      </tbody>
+    </table>
+  </div>
+</div>
