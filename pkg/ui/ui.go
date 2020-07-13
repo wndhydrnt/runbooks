@@ -97,5 +97,6 @@ func InitRoutes(r *mux.Router, rs api.RunbookStore) error {
 	h := &handler{store: rs}
 	r.HandleFunc("/runbooks", h.listRunbooks).Name("listRunbooks").Methods("GET")
 	r.HandleFunc("/runbooks/{name}", h.getRunbook).Name("getRunbook").Methods("GET")
+	r.Handle("/", http.RedirectHandler("/runbooks", http.StatusMovedPermanently))
 	return nil
 }
