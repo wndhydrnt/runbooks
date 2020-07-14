@@ -7,7 +7,6 @@ import (
 	"github.com/prometheus/common/model"
 	"github.com/prometheus/prometheus/pkg/rulefmt"
 	"github.com/russross/blackfriday/v2"
-	"github.com/shurcooL/sanitized_anchor_name"
 	"gopkg.in/yaml.v3"
 )
 
@@ -57,7 +56,7 @@ func (p *Parser) ParseRunbook(input []byte) (Runbook, error) {
 
 					_, exists := rule.Annotations["runbook_url"]
 					if !exists && p.uiURL != "" {
-						anchor := sanitized_anchor_name.Create(string(node.FirstChild.Literal))
+						anchor := blackfriday.SanitizedAnchorName(string(node.FirstChild.Literal))
 						rule.Annotations["runbook_url"] = fmt.Sprintf("%s/runbooks/%s#%s", p.uiURL, r.Name, anchor)
 					}
 
