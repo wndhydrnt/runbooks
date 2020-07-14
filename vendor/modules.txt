@@ -85,9 +85,6 @@ github.com/prometheus/prometheus/util/testutil
 # github.com/russross/blackfriday/v2 v2.0.2-0.20200218235218-3b2b20c8cb06
 ## explicit
 github.com/russross/blackfriday/v2
-# github.com/shurcooL/sanitized_anchor_name v1.0.0
-## explicit
-github.com/shurcooL/sanitized_anchor_name
 # github.com/uber/jaeger-client-go v2.23.1+incompatible
 github.com/uber/jaeger-client-go
 github.com/uber/jaeger-client-go/internal/baggage
