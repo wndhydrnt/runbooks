@@ -2,6 +2,7 @@ package ui
 
 import (
 	"net/http"
+	"sort"
 
 	"github.com/gorilla/mux"
 	"github.com/hoisie/mustache"
@@ -66,6 +67,7 @@ func (h *handler) listRunbooks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	sort.Slice(storedRunbooks, func(i, j int) bool { return storedRunbooks[i].Name < storedRunbooks[j].Name })
 	data := listRunbooksData{}
 	for _, srb := range storedRunbooks {
 		data.Runbooks = append(data.Runbooks, runbook{Name: srb.Name})
