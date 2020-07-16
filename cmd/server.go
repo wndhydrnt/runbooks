@@ -13,8 +13,10 @@ import (
 )
 
 var (
-	address = flag.String("address", ":8090", "address of the server.")
-	uiURL   = flag.String("ui.url", "", "this url will be used to construct the runbook_url annotation. an empty string disables this functionality")
+	address       = flag.String("address", ":8090", "address of the server.")
+	uiURL         = flag.String("ui.url", "", "this url will be used to construct the runbook_url annotation. an empty string disables this functionality")
+	storeType     = flag.String("store.type", "memory", "the type of store to use (valid: file, memory)")
+	storeFilePath = flag.String("store.file.path", "*.md", "a glob pattern to use to discover runbooks")
 )
 
 func main() {
@@ -22,9 +24,23 @@ func main() {
 
 	router := mux.NewRouter()
 	p := parser.NewParser(*uiURL)
-	store := store.NewInMemory()
-	api.InitRoutesV0(router.PathPrefix("/api").Subrouter(), p, store)
-	err := ui.InitRoutes(router, store)
+
+	var s api.RunbookStore
+	switch *storeType {
+	case "file":
+		var err error
+		s, err = store.NewFile(*storeFilePath, p)
+		if err != nil {
+			log.Fatalf("create file store: %s", err)
+		}
+	case "memory":
+		s = store.NewInMemory()
+	default:
+		log.Fatalf("unknown store of type %s", *storeType)
+	}
+
+	api.InitRoutesV0(router.PathPrefix("/api").Subrouter(), p, s)
+	err := ui.InitRoutes(router, s)
 	if err != nil {
 		log.Fatal(err)
 	}
