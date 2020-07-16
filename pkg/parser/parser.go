@@ -46,7 +46,7 @@ func (p *Parser) ParseRunbook(input []byte) (Runbook, error) {
 			}
 
 			if node.HeadingData.Level == 2 {
-				if node.Next != nil && node.Next.Type == blackfriday.CodeBlock && string(node.Next.CodeBlockData.Info) == "yaml" {
+				if node.Next != nil && node.Next.Type == blackfriday.CodeBlock && node.Next.CodeBlockData.IsFenced {
 					rule := rulefmt.RuleNode{}
 					err := yaml.Unmarshal(node.Next.Literal, &rule)
 					if err != nil {
