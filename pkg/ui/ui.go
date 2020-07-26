@@ -10,6 +10,7 @@ import (
 	"github.com/wndhydrnt/runbooks/pkg/api"
 	"github.com/wndhydrnt/runbooks/pkg/parser"
 	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
 	gmparser "github.com/yuin/goldmark/parser"
 )
 
@@ -106,6 +107,7 @@ func InitRoutes(r *mux.Router, rs api.RunbookStore) error {
 	}
 
 	gm := goldmark.New(
+		goldmark.WithExtensions(extension.GFM),
 		goldmark.WithParserOptions(
 			gmparser.WithAutoHeadingID(),
 		),
