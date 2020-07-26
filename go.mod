@@ -8,6 +8,7 @@ require (
 	github.com/prometheus/client_golang v1.7.1 // indirect
 	github.com/prometheus/common v0.10.0
 	github.com/prometheus/prometheus v1.8.2-0.20200626085723-c448ada63d83
-	github.com/russross/blackfriday/v2 v2.0.2-0.20200218235218-3b2b20c8cb06
+	github.com/shurcooL/sanitized_anchor_name v1.0.0
+	github.com/yuin/goldmark v1.2.0
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
 )

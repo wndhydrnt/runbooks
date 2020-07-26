@@ -1,14 +1,16 @@
 package ui
 
 import (
+	"bytes"
 	"net/http"
 	"sort"
 
 	"github.com/gorilla/mux"
 	"github.com/hoisie/mustache"
-	"github.com/russross/blackfriday/v2"
 	"github.com/wndhydrnt/runbooks/pkg/api"
 	"github.com/wndhydrnt/runbooks/pkg/parser"
+	"github.com/yuin/goldmark"
+	gmparser "github.com/yuin/goldmark/parser"
 )
 
 var (
@@ -18,6 +20,7 @@ var (
 )
 
 type handler struct {
+	gm    goldmark.Markdown
 	store api.RunbookStore
 }
 
@@ -49,8 +52,14 @@ func (h *handler) getRunbook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := blackfriday.Run(runbook.Markdown, blackfriday.WithExtensions(blackfriday.CommonExtensions|blackfriday.AutoHeadingIDs))
-	payload := getRunbookTpl.RenderInLayout(layoutTpl, getRunbookData{RunbookHTML: string(data)})
+	buf := bytes.NewBuffer([]byte{})
+	err = h.gm.Convert(runbook.Markdown, buf)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	payload := getRunbookTpl.RenderInLayout(layoutTpl, getRunbookData{RunbookHTML: buf.String()})
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(payload))
@@ -96,7 +105,12 @@ func InitRoutes(r *mux.Router, rs api.RunbookStore) error {
 		return err
 	}
 
-	h := &handler{store: rs}
+	gm := goldmark.New(
+		goldmark.WithParserOptions(
+			gmparser.WithAutoHeadingID(),
+		),
+	)
+	h := &handler{gm: gm, store: rs}
 	r.HandleFunc("/runbooks", h.listRunbooks).Name("listRunbooks").Methods("GET")
 	r.HandleFunc("/runbooks/{name}", h.getRunbook).Name("getRunbook").Methods("GET")
 	r.Handle("/", http.RedirectHandler("/runbooks", http.StatusMovedPermanently))

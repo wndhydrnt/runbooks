@@ -82,9 +82,9 @@ github.com/prometheus/prometheus/util/stats
 github.com/prometheus/prometheus/util/strutil
 github.com/prometheus/prometheus/util/teststorage
 github.com/prometheus/prometheus/util/testutil
-# github.com/russross/blackfriday/v2 v2.0.2-0.20200218235218-3b2b20c8cb06
+# github.com/shurcooL/sanitized_anchor_name v1.0.0
 ## explicit
-github.com/russross/blackfriday/v2
+github.com/shurcooL/sanitized_anchor_name
 # github.com/uber/jaeger-client-go v2.23.1+incompatible
 github.com/uber/jaeger-client-go
 github.com/uber/jaeger-client-go/internal/baggage
@@ -100,6 +100,15 @@ github.com/uber/jaeger-client-go/thrift-gen/zipkincore
 github.com/uber/jaeger-client-go/utils
 # github.com/uber/jaeger-lib v2.2.0+incompatible
 github.com/uber/jaeger-lib/metrics
+# github.com/yuin/goldmark v1.2.0
+## explicit
+github.com/yuin/goldmark
+github.com/yuin/goldmark/ast
+github.com/yuin/goldmark/parser
+github.com/yuin/goldmark/renderer
+github.com/yuin/goldmark/renderer/html
+github.com/yuin/goldmark/text
+github.com/yuin/goldmark/util
 # go.uber.org/atomic v1.6.0
 go.uber.org/atomic
 # golang.org/x/sync v0.0.0-20200317015054-43a5402ce75a
