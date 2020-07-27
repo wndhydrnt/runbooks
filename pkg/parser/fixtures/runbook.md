@@ -1,6 +1,8 @@
 # MyService
 
-## Instance down
+## Alerts
+
+### Instance down
 
 ```yaml
 alert: InstanceDown
@@ -13,8 +15,13 @@ annotations:
   description: "Instance: {{$labels.instance}}"
 ```
 
-### Actions
+## Actions
+
+### Restart Service
+
+```bash
+systemctl restart myservice
+```
 
 - Check if the service is running by SSHing into the instance and executing `systemctl status myservice`.
-- Try restarting the service: `systemctl restart myservice`.
 - Check the logs.

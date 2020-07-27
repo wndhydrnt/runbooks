@@ -9,7 +9,9 @@ Alerts are part of a runbook which is written in Markdown. Each Alert is a [Prom
 ````markdown
 # MyService <-- The h1 heading at the start is required. It will become the name of the runbook.
 
-## Instance down <-- This h2 heading starts a new rule. Each h2 in the document that is followed by a yaml code block is treated as a rule.
+## Alerts <-- This h2 heading starts the alerts section. Within this section, each h3 heading followed by a code block are parsed as an alert.
+
+### Instance down <-- This h3 heading becaomes the name of the alert.
 
 ```yaml <-- This is the Alerting rule. It will be parsed and exposed for consumption by a Prometheus server.
 alert: InstanceDown
@@ -22,11 +24,16 @@ annotations:
   description: "Instance: {{$labels.instance}}"
 ```
 
-### Actions <-- This heading and the following list will not be parsed but still displayed in the UI. You can put what ever you want here.
+## Actions <-- This h2 heading starts the actions section. Within this section, each h3 heading followed by a code block are parsed as an action. Each action can then be executed via the UI.
+
+### Restart Service <-- This h3 heading becaomes the name of the action.
 
 - Check if the service is running by SSHing into the instance and execute `systemctl status myservice`.
-- Try restarting the service: `systemctl restart myservice`.
 - Check the logs at `/var/log/myservice/out.log`.
+
+```bash <-- This is the action.
+systemctl restart myservice
+```
 ````
 
 See also [examples/runbook.md](examples/runbook.md).

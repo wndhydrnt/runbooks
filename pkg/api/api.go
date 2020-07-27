@@ -92,7 +92,21 @@ func (p *prometheusHandler) listPrometheusRulesV0(w http.ResponseWriter, r *http
 	}
 
 	for _, rb := range runbooks {
-		groups.Groups = append(groups.Groups, rb.Rules)
+		ruleGroup := rulefmt.RuleGroup{
+			Name: rb.Name,
+		}
+		for _, alert := range rb.Alerts {
+			rule := rulefmt.RuleNode{}
+			err := yaml.Unmarshal(alert.Data, &rule)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+
+			ruleGroup.Rules = append(ruleGroup.Rules, rule)
+		}
+
+		groups.Groups = append(groups.Groups, ruleGroup)
 	}
 
 	w.Header().Set("Content-Type", "text/yaml; charset=utf-8")

@@ -1,6 +1,8 @@
 # MyService
 
-## Instance down
+## Alerts
+
+### Instance Down
 
 ```yaml
 alert: InstanceDown
@@ -13,13 +15,7 @@ annotations:
   description: "Instance: {{$labels.instance}}"
 ```
 
-### Actions
-
-- Check if the service is running by SSHing into the instance and execute `systemctl status myservice`.
-- Try restarting the service: `systemctl restart myservice`.
-- Check the logs at `/var/log/myservice/out.log`.
-
-## High HTTP Errors
+### High HTTP Errors
 
 ```yaml
 alert: HighHTTPErrors
@@ -32,7 +28,12 @@ annotations:
   description: "RPS: {{$value}}"
 ```
 
-### Actions
+## Actions
+
+### Restart Service
+
+```bash
+ssh 192.168.1.1 systemctl restart myservice
+```
 
 - Check the logs at `/var/log/myservice/out.log`.
-- Check database connection.

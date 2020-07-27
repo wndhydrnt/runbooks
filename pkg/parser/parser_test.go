@@ -13,18 +13,22 @@ func ExampleParser_ParseRunbook() {
 	}
 
 	p := &Parser{uiURL: "http://localhost:8090"}
-	runbook, err := p.ParseRunbook([]byte(input))
+	runbook, err := p.ParseRunbook(input)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Println(runbook.Name)
-	fmt.Println(runbook.Rules.Rules[0].Alert.Value)
-	fmt.Println(runbook.Rules.Rules[0].Expr.Value)
-	fmt.Println(runbook.Rules.Rules[0].Annotations["runbook_url"])
+	fmt.Println(runbook.Actions[0].Name)
+	fmt.Println(runbook.Actions[0].Type)
+	fmt.Printf("%s", runbook.Actions[0].Data)
+	fmt.Println(runbook.Alerts[0].Name)
+	fmt.Println(runbook.Alerts[0].Type)
 	// Output:
 	// MyService
-	// InstanceDown
-	// up{job="MyService"} == 0
-	// http://localhost:8090/runbooks/MyService#instance-down
+	// Restart service
+	// bash
+	// systemctl restart myservice
+	// Instance down
+	// yaml
 }
